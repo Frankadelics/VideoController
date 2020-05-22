@@ -44,6 +44,8 @@ void loop()
   }
 }
 
+//Trying to make an int into a char so I can use less code. 
+
 //void writeToSerial(int passedInt)
 //{
 //  String string = String(passedInt);
