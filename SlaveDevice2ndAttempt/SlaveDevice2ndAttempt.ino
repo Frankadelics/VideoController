@@ -1,35 +1,59 @@
 //Slave device YouTube Glove
 //This is the device that will be connected to the computer
-//This is the Arduino Uno 
+//This is the Arduino Micro
 
-//#include <Keyboard.h>
+#include <Keyboard.h>
 
 //An LED that is used to indicate whether we recieved something from the serial monitor
-int greenLEDPin = 9;
+int greenLEDPin = 12;
+int redLEDPin = 10;
+int blueLEDPin = 8;
+int yellowLEDPin = 6;
 int state = 0;
+
 void setup()
 {
-  pinMode(greenLEDPin, INPUT);
-  digitalWrite(greenLEDPin, LOW);
-  Serial.begin(9600);
- // Keyboard.begin();
+  for (int i = 6; i < 14; i+=2)
+  {
+    pinMode(i, OUTPUT);
+    digitalWrite(i, LOW);
+  }
+  Serial1.begin(9600);
+  Keyboard.begin();
 }
 
 void loop()
 {
-  //Read what is in the serial port and save it to state
-  state = Serial.read();
-
+  state = Serial1.read();
+  Serial1.print(state);
+ 
   if (state == '1')
   {
-    Serial.print("I got your message. LED ON!\n");
     digitalWrite(greenLEDPin, HIGH);
     delay(150);
-  }
-  else
-  {
-    Serial.print("No message recieved. LED OFF!\n");
     digitalWrite(greenLEDPin, LOW);
-    delay(150);
+    Keyboard.press(KEY_LEFT_ARROW);
+    Keyboard.release(KEY_LEFT_ARROW);
   }
+  else if (state == '2')
+  {
+    digitalWrite(redLEDPin, HIGH);
+    delay(150);
+    digitalWrite(redLEDPin, LOW);
+    Keyboard.press(KEY_RIGHT_ARROW);
+    Keyboard.release(KEY_RIGHT_ARROW);
+  }
+  else if (state == '3')
+  {
+    digitalWrite(blueLEDPin, HIGH);
+    delay(150);
+    digitalWrite(blueLEDPin, LOW);
+  }
+  else if (state == '4')
+  {
+    digitalWrite(yellowLEDPin, HIGH);
+    delay(150);
+    digitalWrite(yellowLEDPin, LOW);
+  }
+
 }
